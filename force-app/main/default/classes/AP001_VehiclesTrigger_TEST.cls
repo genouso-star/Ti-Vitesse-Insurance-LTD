@@ -1,15 +1,3 @@
-/**
- * @File Name          : TestVehiclesTrigger.cls
- * @Description        : To test the increment of Total loss Vehicles Yearly field in the Agent object.
- * @Author             : Elia David HANTANIRINA
- * @Last Modified By   : Elia David HANTANIRINA
- * @Last Modified On   : 21/02/2022
- * @Modification Log   : 
- *==============================================================================
- * Ver         Date                     Author      Modification
- *==============================================================================
- * 1.0    21/02/2022      Elia David HANTANIRINA    Initial Version
-**/
 @isTest
 private class AP001_VehiclesTrigger_TEST {
     @TestSetup
