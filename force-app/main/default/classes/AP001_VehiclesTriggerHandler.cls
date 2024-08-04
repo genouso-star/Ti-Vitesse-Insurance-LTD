@@ -1,16 +1,3 @@
-/**
- * @File Name          : AP01_VehiclesTriggerHandler.cls
- * @Description        : Incrementing the Total Loss Vehicles Yearly.
- * @Author             : EHA
- * @Last Modified By   : EHA
- * @Last Modified On   : 21/02/2022
- * @Modification Log   : 
- *==============================================================================
- * Ver         Date                     Author      Modification
- *==============================================================================
- * 1.0    21/02/2022      EHA    Initial Version
-**/
-
 public with sharing class AP001_VehiclesTriggerHandler {
     public AP001_VehiclesTriggerHandler() {}
     /**
