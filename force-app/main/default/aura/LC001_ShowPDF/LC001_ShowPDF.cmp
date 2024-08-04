@@ -1,0 +1,18 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" controller ="AP001_InvoicePDFController">
+    <aura:attribute name="lstInvoice" type="List" />
+    <aura:attribute name="redirectUrlPDF" type="String" />
+    
+    <h2>LIST INVOICE</h2>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:iteration items="{!v.lstInvoice}" var="item">
+
+        <h1><a 
+            href="{!'https://resilient-impala-5b740t-dev-ed--c.visualforce.com/apex/InvoicePDFPage?id=' + item.Id}" 
+            onclick="{!c.getName}" >{!item.Name}</a>
+        </h1>
+
+        <!-- <p>{!item.Name}</p> -->
+    </aura:iteration>
+</aura:component>

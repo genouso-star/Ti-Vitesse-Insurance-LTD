@@ -1,0 +1,156 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller ="AP001_CaseTriggerHandler">
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="makeList" type="String[]" default="Audi,Austin,BMW,Cadillac,Chevrolet,Chrysler,Citroen,Abarth,AC,Acura,Aixam,Alpina,Alpine,AMC,AMG,APAL,Ariel,ARO,Aston Martin,Autobianchi,Auverland,Bauchet,Bentley,Bertone,Bristol,Bugatti,Buick,Caterham,Checker,Cobra,COURB,Dacia,Daewoo,DAF,Daihatsu,Daimler,Datsun,De Clercq,De La Chapelle,De Tomaso,DeLorean,Dodge,Donkervoort,DS Automobiles,Eagle,Exagon,Ferrari,FIAT,FORD,FSM,Gillet,GMC,Hommell,Honda,Hummer,Hyundai,Infiniti,Innocenti,Isuzu,Iveco,Jaguar,JEEP,KIA,LADA,Lamborghini,Lancia,Land Rover,LDV,Lexus,Lincoln,Lotus,Mahindra,Marcos,Maruti,Maserati,Matra,Maybach,Mazda,Mc Laren,MEGA,Mercedes Benz,Mercury,MG,MINI,Mitsubishi,Morgan,Morris,Moskvitch,Nissan,Oldsmobile,OPEL,Panther,Peugeot,PGO,Plymouth,Pontiac,Porsche,Proton,Reliant,Renault,Rolls Royce,Rover,SAAB,Samsung,Santana,Saturn,SEAT,Secma,Simca,Skoda,Smart,SsangYong,Steyr,Subaru,Suzuki,Talbot,TATA,Tatra,Tesla,Toyota,Triumph,TVR,Ultima,Vauxhall,Venturi,Volkswagen,Volvo,Wartburg,Westfield,YUGO,Zastava,ZAZ"/>
+    <aura:attribute name="Colours" type="String[]" default="Unknown,Multicolour,White,Black,Red,Blue,Green,Yellow,Orange,Brown,Grey,Beige,Metalic,Purple,Other"/>
+    <aura:attribute name="Types" type="String[]" default="Mechanical,Electrical,Electronic,Structural,Other"/>
+    <aura:attribute name="Reasons" type="String[]" default="Installation,Equipment Complexity,Performance,Breakdown,Equipment Design,Feedback,Other"/>
+    <aura:attribute name="DamageType" type="String[]" default="Full,Partial,Total loss"/>
+    <aura:attribute name="lstClaims" type="List" />
+    <aura:attribute name="accId" type="String" />
+    
+    <aura:attribute name="newClaims" type="Case" default="{ 'sobjectType': 'Case',
+                        'DateTimeIncident__c': '',
+                        'Type': '',
+                        'Reason': '',
+                        'DamageType__c': '',   
+                        'Description': '',
+                        'Origin':'Web'
+                        }"/>
+
+    <aura:attribute name="newVehicDammage" type="Vehicles__c" default="{ 'sobjectType': 'Vehicles__c', 
+                        'Make__c': '',
+                        'EngineCapacity__c': '',
+                        'Model__c': '',
+                        'YearVehicle__c': '',
+                        'Colour__c': '',     
+                        'RegistrationNumber__c': '',    
+                        'Mileage__c': ''
+                        }"/>
+    
+    
+	<lightning:tabset selectedTabId="one">
+        
+     <lightning:tab label="List claims" id="one">
+         <br />
+            <aura:iteration items="{!v.lstClaims}" var="item">
+                  
+                
+                <article class="slds-card">
+                    <div class="slds-card__header slds-grid">
+                    	<header class="slds-media slds-media_center slds-has-flexi-truncate">
+                            <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-account" title="account">
+                             
+                                <lightning:icon iconName="standard:event" alternativeText="Event" title="Event" />
+                             
+                            <span class="slds-assistive-text">account</span>
+                            </span>
+                            </div>
+                            <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">
+                            <a href="#" class="slds-card__header-link slds-truncate" title="Accounts">
+                            <span>Claim n° : {!item.Id}</span>
+                            </a>
+                            </h2>
+                            </div>
+                    	</header>
+                    </div>
+                    <div class="slds-card__body slds-card__body_inner">
+                         		Created Date :<b>{!item.CreatedDate}</b><br />
+                         		Date incident :<b>{!item.DateTimeIncident__c}</b><br />
+                                DamageType__c : <b>{!item.DamageType__c}</b><br />
+                                Description	: <b>{!item.Description}</b><br />
+                                Agent : <b>{!item.Account.Name}</b>
+                        		Agent : <b>{!item.ClosedDate}</b> 
+                    </div>
+                  </article>                 
+                <hr />
+                
+            </aura:iteration>
+         
+      <!-- start details --> 
+      </lightning:tab>   
+        
+      <lightning:tab label="Create new claim" id="two">
+            
+        <!-- CREATE NEW EXPENSE FORM -->
+       <form class="slds-form_stacked">  
+       <lightning:layout>
+               
+          <lightning:layoutItem size="4" class="slds-m-right_x-large" >
+                 
+               <h3>Enter a date/time for incident</h3>
+                <!-- Start for created --> 
+                  
+               <lightning:input type="datetime" name="DateTimeIncident__c" aura:id="Case" value="{!v.newClaims.DateTimeIncident__c}"  required="true" /> 
+                  
+               <lightning:select name="Type" label="Type" required="true" aura:id="Case" value="{!v.newClaims.Type}" >
+                     <option value="" >choose one...</option> 
+                     <aura:iteration items="{!v.Types}" var="typs"> 
+                         <option value="{!typs}"> {!typs}</option> 
+                     </aura:iteration>                    
+                </lightning:select>
+                
+               <lightning:select name="Reason" label="Reason" required="true" aura:id="Case" value="{!v.newClaims.Reason}">
+                 <option value="" >choose one...</option>
+                 <aura:iteration items="{!v.Reasons}" var="res"> 
+                     <option value="{!res}"> {!res}</option> 
+                 </aura:iteration> 
+                </lightning:select>
+                
+                <lightning:select name="DamageType__c" label="Damage type" required="true" aura:id="Case" value="{!v.newClaims.DamageType__c}">
+                    <option value="" >choose one...</option>
+                     <aura:iteration items="{!v.DamageType}" var="dmgTyp"> 
+                         <option value="{!dmgTyp}"> {!dmgTyp}</option> 
+                     </aura:iteration>                    
+                </lightning:select>
+               
+               <lightning:textarea name="Description" label="Description claim" aura:id="Case" value="{!v.newClaims.Description}"/>
+                  
+                        <!-- End of created -->
+                           
+		</lightning:layoutItem>
+                  
+        <lightning:layoutItem size="6">
+              
+              <!--<lightning:icon iconName="action:approval" alternativeText="Approved" title="Approved" class="slds-m-left_x-large" />-->
+                
+               <h3>Damaged Vehicle</h3>
+                
+              <lightning:select name="Make__c" label="Make" required="true" aura:id="expenseform" value="{!v.newVehicDammage.Make__c}"> 
+                 <option value="" >choose one...</option>
+                 <aura:iteration items="{!v.makeList}" var="mak"> 
+                     <option value="{!mak}"> {!mak}</option> 
+                 </aura:iteration>  
+              </lightning:select>
+                
+             <lightning:select name="Colour__c" label="Colour" required="true" aura:id="expenseform" value="{!v.newVehicDammage.Colour__c}">
+                 <option value="" >choose one...</option>
+                 <aura:iteration items="{!v.Colours}" var="Colour"> 
+                     <option value="{!Colour}"> {!Colour}</option> 
+                 </aura:iteration>  
+              </lightning:select>   
+                
+              <lightning:input type="number" name="EngineCapacity__c" label="Engine capacity" aura:id="expenseform" value="{!v.newVehicDammage.EngineCapacity__c}"/>
+ 			  <lightning:input type="text" name="Model__c" label="Model" aura:id="expenseform" value="{!v.newVehicDammage.Model__c}"/>
+			  <lightning:input type="number" name="YearVehicle__c" label="Year of Vehicle" aura:id="expenseform" value="{!v.newVehicDammage.YearVehicle__c}"/>
+			  <lightning:input type="number" name="RegistrationNumber__c" label="Registration number" aura:id="expenseform" value="{!v.newVehicDammage.RegistrationNumber__c}"/>                
+              <lightning:input type="number" name="Mileage__c" label="Mileage" aura:id="expenseform" value="{!v.newVehicDammage.Mileage__c}"/>
+               
+               <br />  
+                
+              <lightning:button variant="brand" label="Save claim" title="Save Claim" onclick="{!c.saveClaims}" class=""/>    
+                
+            </lightning:layoutItem>
+            
+          </lightning:layout>
+            
+        </form>    
+                             
+      </lightning:tab>
+          
+    </lightning:tabset>
+     
+</aura:component>	
